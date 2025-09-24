@@ -5,6 +5,11 @@ R64_chr1.fna
 alignment.bam
 alignment.sorted.bam
 alignment.sorted.bam.bai
+cds_aln.bam
+cds_aln.sorted.bam
+cds_aln.sorted.bam.bai
+cds_aln.sam
+
 
 
 
