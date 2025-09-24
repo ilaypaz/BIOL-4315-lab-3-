@@ -28,3 +28,80 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+QUESION 1 
+
+Total assembly length is  10230273
+THE n50 IS 28892
+ number of contigs 431
+ largest contig 85462
+ Coverage 6
+ 
+ QUESTION 2 
+ 
+ The Busco scores are 	C:38.0%[S:37.9%,D:0.1%],F:0.6%,M:61.4%,n:3282,E:5.8%, It is in C rather than F and M. of the 38% 37.9 are single copies and D are duplicate copies. These scores suck since not even half of the genome was found to have matches. 
+ 
+ Busco N50 is 28,000 in length flyes N50 is 28,892 similar but flye is better
+ 
+ Busco has 	10230273	Total length which is the same as flye's 
+ 
+ Question 3
+ 
+ Genome fraction of quast is  3.061% (was able to be aligned) which is much lower than busco's 38%
+ 
+ Quast has a duplication ration of 1.024
+ 
+ 1 misassembly, 1 misassembled contig, misassembled contig length of  18,088
+ 
+ This means that relative to the reference genome we see one error of length 18,088 BP compared to the genome size of 10,230,273 however yet the aliignment is about 3% so this shows the assembly of the genome was done relatively well but due to species diversity it does not align with the reference genome sequence well. 
+ 
+ 
+ 
+QUESTION 4
+```{r}
+library(Biostrings)
+genome<-readDNAStringSet("/Users/ipaz00/Downloads/BIOL4315_R/biol 4315 lab3/BIOL-4315-lab-3-/GCF_000146045.2_R64_genomic.fna")
+names(genome)
+xome1<- genome[grep("chromosome I",names(genome), ignore.case=TRUE)]
+writeXStringSet(xome1, "R64_chr1.fna")
+xome1
+```
+
+
+QUESTION 5
+
+There are 9 contigs aligning to chromosome 1 in the plot seen
+```{r}
+
+library(Rsamtools)
+library(GenomicAlignments)
+library(GenomicRanges)
+library(Gviz)
+# BAM file path
+bam_file <- "alignment.sorted.bam"
+# Open connection to BAM file
+bam <- BamFile(bam_file)
+
+# Read all alignments (already restricted to chr1)
+alns <- readGAlignments(bam)
+options(ucscChromosomeNames = FALSE)
+
+# Convert to GRanges object
+gr_alns <- granges(alns)
+aln_track <- AnnotationTrack(gr_alns, name = "Contigs", genome = "sacCer3", chromosome = "NC_001133.9")
+
+
+# Add genome axis for scale
+axis_track <- GenomeAxisTrack()
+# Plot
+plotTracks(list(axis_track, aln_track),
+           from = min(start(gr_alns)),
+           to = max(end(gr_alns)),
+           main = "Contig Alignments to Chromosome 1")
+```
+
+QUESTION 6
+ 
+
+ 
+
